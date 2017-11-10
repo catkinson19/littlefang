@@ -18,6 +18,7 @@
     "express": "^4.16.2",
     "form-scraper": "0.0.4",
     "lodash": "^4.17.4",
+    "mysql": "^2.15.0",
     "node-uuid": "^1.4.8",
     "promisified-request": "0.0.3",
     "request": "^2.83.0"
