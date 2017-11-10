@@ -9,34 +9,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static("public"));
 
-/*
-var exphbs = require("express-handlebars");
-
-app.engine("handlebars", exphbs({ defaultLayout: "main" }));
-app.set("view engine", "handlebars");
-*/
-
 //DB
 var mysql = require("mysql");
 
-
-var connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "Iwywbmmp.99",
-    database: "littlefang"
-});
-
-if(process.env.JAWSDB_URL){
-    const connection = mysql.createConnection(process.env.JAWSDB_URL);
-} else {
-    const connection = mysql.createConnection({
-        host: "localhost",
-        user: "root",
-        password: "Iwywbmmp.99",
-        database: "littlefang"
+if (process.env.JAWSDB_URL) {
+    connection = mysql.createConnection(process.env.JAWSDB_URL);
+  } else {
+    var connection = mysql.createConnection({
+      host: "localhost",
+      user: "root",
+      password: "Iwywbmmp.99",
+      database: "burgers_db"
     });
-};
+  };
 
 connection.connect(function (err) {
     if (err) {
