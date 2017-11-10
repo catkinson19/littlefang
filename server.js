@@ -19,12 +19,24 @@ app.set("view engine", "handlebars");
 //DB
 var mysql = require("mysql");
 
+
 var connection = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "Iwywbmmp.99",
     database: "littlefang"
 });
+
+if(process.env.JAWSDB_URL){
+    const connection = mysql.createConnection(process.env.JAWSDB_URL);
+} else {
+    const connection = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: "Iwywbmmp.99",
+        database: "littlefang"
+    });
+};
 
 connection.connect(function (err) {
     if (err) {
