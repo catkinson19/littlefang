@@ -1,0 +1,30 @@
+body{
+  background-color: #2a333c;
+}
+
+h6{
+  color: white;
+  margin-bottom: 10px;
+}
+
+input{
+  width: 50%;
+}
+
+button{
+  color: black;
+  background-color: white;
+  border: 1px solid white;
+}
+
+button:hover{
+  color: white;
+  background-color: #cb3837;
+  border: 1px solid #cb3837;
+}
+
+#logo{
+  position: relative;
+  height: 200px;
+  margin-top: 50%;
+}
