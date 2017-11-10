@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const formScraper = require("form-scraper");
 
 const app = express();
-const PORT = 9999;
+var PORT = process.env.PORT || 9999;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
