@@ -133,20 +133,19 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script type="text/javascript">
     $(document).ready(function () {
-      $("#submit").on("click", function (event) {
-        event.preventDefault();
-        let url = $("#url").val().trim();
-        let key = $("#key").val().trim();
-        let obj = [key, url];
-        $.post("/api/new", obj)
-          .done(function (data) {
-            console.log(data);
-          });
-
-      });
-    });
+    $("#submit").on("click", function(event) {
+      event.preventDefault();
+      let obj = {
+        url: $("#url").val().trim(),
+        key: $("#key").val().trim()
+      };
+      // Question: What does this code do??
+      $.post("/launch", obj)
+      .done(function(data) {
+      })
+    })
+  });
   </script>
-
   <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>

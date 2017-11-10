@@ -2,7 +2,7 @@ const path = require("path");
 module.exports = function (app, connection) {
 
     //src attacks
-    app.get("/:attackTypeId", function (req, res) {
+    app.get("/a/:attackTypeId", function (req, res) {
         console.log(`External client requesting ATTACK TYPE: ${req.params.attackTypeId}`);
         //This is a switch to support easy adding of new src attacks
         switch (req.params.attackTypeId) {
@@ -17,8 +17,20 @@ module.exports = function (app, connection) {
 
     });
 
+    //attack launcher
+    app.post("/launch", function (req, res) {
+        console.log(`req.body.url: ${req.body.url}`);
+        console.log(`req.body.key: ${req.body.key}`);
+        if(req.body.key == "A9E49F2BB868A32E"){
+            res.send(`littlefang`);
+            //launch attack
+        } else {
+            res.send(`bad key`);
+        }
+    });
+
     //attack recorder
-    app.post("/:attackTypeId", function (req, res) {
+    app.post("/a/:attackTypeId", function (req, res) {
         if (req.params.attackTypeId) {
             connection.query("INSERT INTO attack_successful (url, form_id, attack_type_id) VALUES (?, ?, ?)", [
                 req.body.u, req.body.f, req.params.attackTypeId
@@ -31,5 +43,5 @@ module.exports = function (app, connection) {
                 res.send(`littlefang`);
             });
         }
-    })
+    });
 };

@@ -1,5 +1,7 @@
 const request = require('request');
 const cheerio = require('cheerio');
+const pRequest = require("promisified-request").create();
+const fScraper = require("form-scraper");
 
 //const startUrl = 'https://news.ycombinator.com';
 const startUrl = 'https://catkinson19.github.io/test_site/';
@@ -30,25 +32,26 @@ function crawlScrape(startUrl) {
         })
         switch (urlSet) {
             case 'internal':
-                for (let i = 0; i < scrapedInternalUrls.length; i++) {
-                    request(scrapedInternalUrls[i], function (err, resp, body) {
-                        $ = cheerio.load(body);
-                        let forms = $('form')[0];
-                        if(forms){
-                            console.log(`I found a form on ${scrapedInternalUrls[i]}`)
-                            for(let i = 0; i < forms.length; i++){
-                                let inputFields = [];
-                                let fields = $('input').attr('type', 'text');
-                                for(let i = 0; i < fields.length; i++){
+            for (let i = 0; i < scrapedInternalUrls.length; i++) {
+                request(scrapedInternalUrls[i], function (err, resp, body) {
+                    $ = cheerio.load(body);
+                    let forms = $('form')[0];
+                    if(forms){
+                        //Pull all the forms off the page
+                        let formId = [];
+                        $('form').each(function (i, elem) {
+                            formId[i] = $(this).attr('id');
+                        });
+                        formId.join(', ');
+                        console.log(`I found ${formId.length} form(s) on ${scrapedInternalUrls[i]}`)
 
-                                    //Pick up here
 
-                                }
-                            }
-                        }
-                    })
-                };
-                break;
+
+                        
+                    }
+                })
+            };
+            break;
             case 'external':
                 break;
             case 'both':

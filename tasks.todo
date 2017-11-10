@@ -19,14 +19,16 @@ littlefang:
         ☐ create table to store information about the different forms scraped @low
     ui:
         ✔ front end @done (11/8/2017, 10:51:21 PM)
-        ☐ api key
+        ✔ api key @done (11/9/2017, 10:09:02 PM)
     research:
         ✔ read Form Scraper documentation @critical @done (11/8/2017, 10:51:40 PM)
     testsite:
-        ✔ deploy testsite to github @done (11/7/2017, 9:13:32 PM)
+        ✔ deploy testsite to github @done (11/9/2017, 6:54:19 PM)
     deployment:
         ☐ deploy app to heroku
         ✔ figure out how to manipulate in production? @done (11/8/2017, 10:51:53 PM)
     longterm:
         ☐ Have the script attack pull an self executing javascript function from the server - advanced attackscript
         ☐ Implement attack-id and imbound validation
+    defects:
+        ☐ html attack not working
