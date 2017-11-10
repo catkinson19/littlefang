@@ -1,7 +1,6 @@
 var _ = require('lodash');
 
 module.exports = {
-  // DO NOT USE THIS METHOD, USE METHOD BELOW
   phoneNumber: function() {
     var areaCodes = [[3,0,3], [7,2,0], [7,1,9], [6,4,6], [3,4,7], [9,1,7], [9,1,4],
       [7,1,8], [4,0,8], [4,1,5], [3,1,4], [6,3,6]];
