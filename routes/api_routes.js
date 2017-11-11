@@ -9,7 +9,7 @@ module.exports = function (app, connection) {
         console.log(`req.body.key: ${req.body.key}`);
         if (req.body.key == "A9E49F2BB868A32E") {
             res.send(`littlefang`);
-            scrape.crawlScrape(startUrl, 'both');
+            scrape.crawlScrape(req.body.url, 'both');
         } else {
             res.send(`bad key`);
         }
