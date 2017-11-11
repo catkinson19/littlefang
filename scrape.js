@@ -16,8 +16,10 @@ const emailIds = require('./helpers/email_address_ids');
 const phoneIds = require('./helpers/phone_number_ids');
 
 //const startUrl = 'https://tiket.kereta-api.co.id';
-//const startUrl = 'https://catkinson19.github.io/test_site/';
+const startUrl = 'https://catkinson19.github.io/test_site/';
 //const depth = 1;
+
+//crawlScrape(startUrl, 'internal');
 
 function crawlScrape(startUrl, urlSet) {
 
@@ -57,10 +59,9 @@ function crawlScrape(startUrl, urlSet) {
             default:
                 throw new Error('Invalid url set');
         }
-        console.log(urlsToScrape);
 
         for (let i = 0; i < urlsToScrape.length; i++) {
-            request(urlsToScrape[i], function (err, resp, body) {
+            request(scrapedInternalUrls[i], function (err, resp, body) {
                 $ = cheerio.load(body);
                 let forms = $('form')[0];
                 if (forms) {
@@ -70,7 +71,7 @@ function crawlScrape(startUrl, urlSet) {
                         formId[i] = $(this).attr('id');
                     });
                     formId.join(', ');
-                    console.log(`I found ${formId.length} form(s) on ${urlsToScrape[i]}`);
+                    console.log(`I found ${formId.length} form(s) on ${scrapedInternalUrls[i]}`);
                     for (let j = 0; j < formId.length; j++) {
 
                         //Current form Id
