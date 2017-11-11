@@ -16,7 +16,7 @@ const emailIds = require('./helpers/email_address_ids');
 const phoneIds = require('./helpers/phone_number_ids');
 
 //const startUrl = 'https://tiket.kereta-api.co.id';
-const startUrl = 'https://catkinson19.github.io/test_site/';
+//const startUrl = 'https://catkinson19.github.io/test_site/';
 //const depth = 1;
 
 function crawlScrape(startUrl, urlSet) {
