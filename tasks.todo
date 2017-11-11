@@ -1,9 +1,9 @@
 littlefang:
     server:
         ☐ wrap scrape in a function (starturl, recursion) @critical
-        ☐ parse returned pages for forms @critical
+        ✔ parse returned pages for forms @critical @done (2017-11-10 13:22:43)
         ✔ if form is identified, grab form @critical @done (11/7/2017, 10:12:29 PM)
-        ☐ analyze form @critical
+        ✔ analyze form @critical @done (2017-11-10 13:22:47)
         ☐ download and integrate Form Scraper @critical
         ☐ launch attack against form @critical
         ☐ move on to next form @critical

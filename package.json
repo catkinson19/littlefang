@@ -20,7 +20,8 @@
     "lodash": "^4.17.4",
     "mysql": "^2.15.0",
     "node-uuid": "^1.4.8",
-    "promisified-request": "0.0.3",
-    "request": "^2.83.0"
+    "request": "^2.83.0",
+    "shortid": "^2.2.8",
+    "submit-form": "^2.0.0"
   }
 }
