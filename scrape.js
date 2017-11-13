@@ -15,11 +15,11 @@ const phoneGenerator = require('./helpers/phone_number_generator');
 const emailIds = require('./helpers/email_address_ids');
 const phoneIds = require('./helpers/phone_number_ids');
 
-//const startUrl = 'https://tiket.kereta-api.co.id';
-//const startUrl = 'https://catkinson19.github.io/test_site/';
+//const startUrl = 'http://www.arstechnica.com';
+const startUrl = 'https://catkinson19.github.io/test_site/';
 //const depth = 1;
 
-//crawlScrape(startUrl, 'internal');
+crawlScrape(startUrl, 'internal');
 
 function crawlScrape(startUrl, urlSet) {
 
